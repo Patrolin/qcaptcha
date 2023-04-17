@@ -64,7 +64,7 @@
         const expectedNumberString = String(expectedNumber);
         const textWidth = context.measureText(expectedNumberString).width;
         context.fillText(expectedNumberString, 0, 0);
-        context.fillRect(0, 0, textWidth, 1);
+        context.fillRect(0, 2 - randInt(4), textWidth, 1);
         // add noise
         const imageData = context.getImageData(0, 0, width, height);
         const pixels = imageData.data;
