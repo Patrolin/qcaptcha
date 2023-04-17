@@ -176,6 +176,7 @@
             game[3*y + x] = 1;
             if (wonGame(1)) {
                 gameState = 1;
+                state.correct = true;
             } else {
                 const allFreeIndices = ALL_INDICES.filter(index => game[index] === 0);
                 if (allFreeIndices.length === 0) {
