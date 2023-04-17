@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>qcaptcha demo</title>
+        <style>
+            body {
+                margin: 15px;
+            }
+            form {
+                display: inline-flex;
+                flex-direction: column;
+            }
+            input {
+                margin: 15px 5px 10px;
+            }
+        </style>
+        <script src="qcaptcha.js"></script>
+        <script>
+            function render() {
+                const usernameTag = document.querySelector("#username");
+                usernameTag.addEventListener("input", () => {
+                    usernameTag.setCustomValidity("");
+                });
+                const captcha = makeCaptcha(document.querySelector("#captcha"));
+                function validate(data) {
+                    console.log("validate", data);
+                    if (data.username.length < 1) {
+                        usernameTag.setCustomValidity("Username is mandatory");
+                        usernameTag.reportValidity();
+                        return false;
+                    }
+                    if (!data.captcha) {
+                        captcha.reportValidity("Invalid captcha");
+                        return false;
+                    }
+                    return true;
+                }
+                function onSubmitForm(event) {
+                    event.preventDefault();
+                    const data = {
+                        username: usernameTag.value,
+                        captcha: captcha.correct,
+                    };
+                    if (validate(data)) {
+                        window.location.href = "success.html";
+                    }
+                }
+                document.querySelector("form").addEventListener("submit", onSubmitForm);
+            }
+            document.addEventListener("DOMContentLoaded", render);
+        </script>
+    </head>
+    <body>
+        <h1>qcaptcha demo</h1>
+        <form target="#">
+            <label for="username">
+                Username:
+                <input id="username" name="username" type="text" autofocus />
+            </label>
+            <label for="captcha">
+                Captcha:
+                <div id="captcha"></div>
+            </label>
+            <div style="width: 100%; display: flex; justify-content: end">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </body>
+</html>
