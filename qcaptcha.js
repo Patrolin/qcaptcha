@@ -200,8 +200,8 @@
         canvasTag.addEventListener("click", gameOnClick);
         return state;
     }
-    const CHECKS = [ticTacToe];
-    //const CHECKS = [readNumber, ticTacToe];
+    //const CHECKS = [ticTacToe];
+    const CHECKS = [readNumber, ticTacToe];
     function makeCaptcha(parentTag) {
         parentTag.style = "display: flex; flex-direction: column";
         const canvasTag = document.createElement("canvas");
