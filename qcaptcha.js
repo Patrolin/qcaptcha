@@ -76,6 +76,7 @@
         context.putImageData(imageData, 0, 0);
         return state;
     }
+    // TODO: make different checks
     const CHECKS = [readNumber];
     function makeCaptcha(parentTag) {
         parentTag.style = "display: flex; flex-direction: column";
