@@ -115,15 +115,26 @@
             context.textBaseline = "middle";
             context.textAlign = "center";
             context.font = "22px monospace";
+            let lineToHighlight;
+            if (gameState === 1) lineToHighlight = [topLine(1)[0], "yellow"];
+            if (gameState === 2) lineToHighlight = [topLine(2)[0], "red"];
+            if (gameState === 3) lineToHighlight = [ALL_INDICES, "gray"];
             for (y = 0; y < 3; y++) {
                 for (let x = 0; x < 3; x++) {
-                    const cell = game[3*y + x];
+                    const index = 3*y + x
+                    const cell = game[index];
                     const letter = (cell === 1) ? "x" : (cell === 2 ? "o" : "");
+                    if (lineToHighlight && lineToHighlight[0].includes(index)) {
+                        context.fillStyle = lineToHighlight[1];
+                    } else {
+                        context.fillStyle = "white";
+                    }
                     context.fillText(letter, lerp(1/6 + x/3, 0, width), lerp(1/6 + y/3, 0, height));
                 }
             }
         }
         renderGame();
+        const ALL_INDICES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         const WIN_LINES = [
             [0, 1, 2],
             [3, 4, 5],
@@ -166,7 +177,7 @@
             if (wonGame(1)) {
                 gameState = 1;
             } else {
-                const allFreeIndices = game.map((v, i) => [v, i]).filter(([v, i]) => v === 0).map(([v, i]) => i);
+                const allFreeIndices = ALL_INDICES.filter(index => game[index] === 0);
                 if (allFreeIndices.length === 0) {
                     gameState = 3;
                 } else {
@@ -177,7 +188,6 @@
                     let freeIndices = line[0].filter(index => game[index] === 0);
                     if (freeIndices.length === 0) freeIndices = allFreeIndices;
                     const index = choose(freeIndices);
-                    console.log(line, freeIndices, index);
                     game[index] = 2;
                     if (wonGame(2)) {
                         gameState = 2;
